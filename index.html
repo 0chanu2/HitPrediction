@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>타구 결과 시뮬레이션</title><link rel="stylesheet" href="preview.css"><script src="model-data.js" defer></script><script src="inference.js" defer></script><script src="trajectory.js" defer></script><script src="stadiums.js" defer></script><script src="stadium-3d.js" defer></script><script src="preview.js" defer></script></head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<main id="main">
+  <div id="load-error" role="alert" hidden>데이터를 불러오지 못했습니다. 새로고침해 주세요.</div>
+  <section id="simulator" class="page">
+    <div class="page-heading"><h1>타구 결과 시뮬레이션</h1></div>
+    <div class="workspace">
+      <section class="panel controls"><div class="panel-title"><h2>타구 조건</h2><button id="reset" class="quiet" type="button">초기화 ↺</button></div>
+        <div class="field"><label for="speed">타구 속도 <span>km/h</span></label><div class="number-wrap"><input id="speed" type="number" min="100" max="200" step="1" value="160"><span>km/h</span></div><input id="speed-range" aria-label="타구 속도 슬라이더" type="range" min="100" max="200" step="1" value="160"><div class="range-ends"><span>100</span><span>200</span></div></div>
+        <div class="field"><label for="angle">발사각 <span>도</span></label><div class="number-wrap"><input id="angle" type="number" min="-40" max="70" step="1" value="20"><span>°</span></div><input id="angle-range" aria-label="발사각 슬라이더" type="range" min="-40" max="70" step="1" value="20"><div class="range-ends"><span>-40°</span><span>70°</span></div></div>
+        <div class="field direction-field"><label for="direction">타구 방향 <output id="direction-value">중앙</output></label><input id="direction" type="range" min="-45" max="45" step="1" value="0"><div class="range-ends"><span>좌측</span><span>중앙</span><span>우측</span></div></div>
+        <div class="stadium-picker"><label for="batter-hand">타석</label><select id="batter-hand"><option value="R" selected>우타</option><option value="L">좌타</option></select></div>
+        <p id="input-error" class="warning" role="alert" hidden></p>
+      </section>
+      <div class="results">
+        <section class="panel probability-panel"><div><p class="eyebrow">안타 확률</p><div class="probability"><span id="hit-probability">—</span><span>%</span></div><p id="condition-label" class="muted"></p></div><div class="probability-bar" aria-hidden="true"><span id="hit-bar"></span></div><div class="bar-labels"><span>안타 <b id="hit-small">—</b></span><span>비안타 <b id="non-hit">—</b></span></div></section>
+        <section class="panel stadium-panel"><div class="panel-title"><h2>타구 경로</h2><div class="view-actions"><button id="view-top" type="button" class="quiet">위에서</button><button id="view-reset" type="button" class="quiet">기본 시점</button></div></div>
+          <div class="stadium-picker"><label for="stadium-select">구장</label><select id="stadium-select" aria-controls="stadium-3d"></select></div>
+          <div class="stadium-viewport"><canvas id="stadium-3d" tabindex="0" role="img" aria-label="3D 타구 경로와 점으로 표시한 수비수 9명의 대략적인 위치. 드래그 또는 방향키로 회전, 휠이나 두 손가락으로 확대, Home 키로 시점 초기화." aria-describedby="trajectory-description"></canvas><div class="view-zoom" role="group" aria-label="화면 확대 및 축소"><button id="view-zoom-in" type="button" aria-label="3D 확대"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg></button><button id="view-zoom-out" type="button" aria-label="3D 축소"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"/></svg></button></div></div>
+          <p id="trajectory-description" class="sr-only"></p>
+          <div class="flight-stats"><span>비거리 <strong id="flight-distance">—</strong></span><span>최고 높이 <strong id="flight-height">—</strong></span><span>체공 시간 <strong id="flight-time">—</strong></span><span><span id="flight-spin-label">백스핀</span> <strong id="flight-backspin">—</strong></span><span>사이드스핀 <strong id="flight-sidespin">—</strong></span></div>
+        </section>
+      </div>
+    </div>
+    <section class="panel outcome-panel" id="outcome-details"><div class="panel-title"><h2>타구 결과별 확률</h2></div><div class="hit-outcomes" id="hit-outcomes"></div><div class="outcome-summary"><span id="out-total"></span><span id="error-total"></span><span id="choice-total"></span></div><p id="likely-out" class="out-insight"></p><details open><summary>아웃 유형·실책·야수선택 상세</summary><div id="non-hit-outcomes" class="outcome-rows"></div></details></section>
+    <section class="panel observed-panel observation-strip"><p class="eyebrow">유사 타구 안타 비율</p><div><strong id="observed-rate">—</strong></div><p id="observed-description" class="muted"></p><p id="observed-sample-info" class="sample-info"></p><p class="sample-info">비교 범위 · 속도 ±5km/h · 발사각 ±2.5° · 방향 ±5°</p></section>
+  </section>
+</main>
+<noscript>타구 조건 변경과 예측 결과를 보려면 JavaScript를 활성화하세요.</noscript>
+</body></html>
